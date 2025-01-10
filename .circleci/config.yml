@@ -10,6 +10,9 @@ jobs:
     steps:
       - checkout
 
+      # Setup remote Docker environment
+      - setup_remote_docker
+
       # Setup AWS CLI
       - run:
           name: Install AWS CLI
@@ -38,3 +41,10 @@ workflows:
   build_and_push_image:
     jobs:
       - build-and-push
+
+  # Trigger the pipeline when code is pushed to the main branch
+  triggers:
+    - type: push
+      branches:
+        only:
+          - main
