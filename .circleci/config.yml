@@ -1,0 +1,15 @@
+version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@8.1.3
+
+workflows:
+  build_and_push_image:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          context: AWS-ECR Context
+          create-repo: true
+          dockerfile: Dockerfile
+          path: .
+          repo: dev/circlecir-repo
+          tag: "$CIRCLE_SHA1"
