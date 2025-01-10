@@ -3,19 +3,35 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.3
 
-executors: 
-  custom-executor: 
-    machine: 
-      image: ubuntu:edge
-      resource_class: large
+jobs:
+  build-and-push:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+
+      # Setup AWS CLI
+      - run:
+          name: Install AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y awscli
+
+      # Authenticate to AWS ECR
+      - aws-ecr/ecr-login
+
+      # Build Docker Image
+      - run:
+          name: Build Docker Image
+          command: docker build -t dev/circlecir-repo:$CIRCLE_SHA1 .
+
+      # Push Docker Image to ECR
+      - aws-ecr/build-and-push-image:
+          repo: dev/circlecir-repo
+          tag: $CIRCLE_SHA1
 
 workflows:
+  version: 2
   build_and_push_image:
     jobs:
-      - aws-ecr/build-and-push-image:
-          context: AWS-ECR Context
-          create-repo: true
-          dockerfile: Dockerfile
-          path: .
-          repo: dev/circlecir-repo
-          tag: "$CIRCLE_SHA1"
+      - build-and-push
