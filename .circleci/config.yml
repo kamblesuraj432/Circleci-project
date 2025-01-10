@@ -18,16 +18,19 @@ jobs:
             sudo apt-get install -y awscli
 
       # Authenticate to AWS ECR
-      - aws-ecr/ecr-login
+      - run:
+          name: Authenticate to AWS ECR
+          command: |
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
 
       # Build Docker Image
       - run:
           name: Build Docker Image
-          command: docker build -t dev/circlecir-repo:$CIRCLE_SHA1 .
+          command: docker build -t dev/circleci-repo:$CIRCLE_SHA1 .
 
       # Push Docker Image to ECR
       - aws-ecr/build-and-push-image:
-          repo: dev/circlecir-repo
+          repo: dev/circleci-repo
           tag: $CIRCLE_SHA1
 
 workflows:
