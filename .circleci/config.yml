@@ -6,7 +6,7 @@ orbs:
 executors: 
   custom-executor: 
     machine: 
-      image: default
+      image: ubuntu:edge
       resource_class: large
 
 workflows:
