@@ -1,15 +1,26 @@
-version: 2.1
-
+version: '2.1'
 orbs:
-  aws-ecr: circleci/aws-ecr@9.3.7
-
+ # import CircleCI's aws-cli orb
+ aws-cli: circleci/aws-cli@3.1
+jobs:
+ aws-example:
+   docker:
+     - image: cimg/aws:2022.06
+   steps:
+     - checkout
+     # run the aws-cli/setup command from the orb
+     - aws-cli/setup:
+         role-arn: 'arn:aws:iam::916370597556:role/circle-ci_trust_policy_role'
+         aws-region: "us-east-1"
+         profile-name: "default"
+     - run:
+         name: Log-into-AWS-ECR
+         command: |
+           # must use same profile specified in the step above       
+           aws ecr get-login-password --profile "default"
 workflows:
-  build_and_push_image:
-    jobs:
-      - aws-ecr/build-and-push-image:
-          context: aws-dev
-          create-repo: true
-          dockerfile: Dockerfile
-          path: .
-          repo: dev/circlecir-repo
-          tag: "$CIRCLE_SHA1"
+ OIDC-with-AWS:
+   jobs:
+     - aws-example:
+         # must use a valid CircleCI context
+         context: aws
