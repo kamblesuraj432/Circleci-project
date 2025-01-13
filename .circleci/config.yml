@@ -16,7 +16,7 @@ jobs:
          name: login S3 and LS
          command: |
            # must use same profile specified in the step above       
-           aws s3 ls --region us-east-1
+           aws ecr get-login-password --region us-east-1
 workflows:
   version: 2
   build_and_push:
