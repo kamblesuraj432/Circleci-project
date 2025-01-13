@@ -13,7 +13,7 @@ jobs:
      - run:
          name: Build Docker image
          command: |
-            docker build -t 916370597556.dkr.ecr.us-east-1.amazonaws.com/suraj:latest
+            docker build -t 916370597556.dkr.ecr.us-east-1.amazonaws.com/suraj:latest .
      # run the aws-cli/setup command from the orb
      - aws-cli/setup:
          role_arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
