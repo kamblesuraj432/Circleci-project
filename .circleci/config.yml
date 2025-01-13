@@ -11,7 +11,7 @@ jobs:
      # run the aws-cli/setup command from the orb
      - aws-cli/setup:
          role-arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
-         profile-name: default
+         profile_name: default
      - run:
          name: login S3 and LS
          command: |
