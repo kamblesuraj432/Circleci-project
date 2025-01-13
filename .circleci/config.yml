@@ -11,15 +11,14 @@ jobs:
      # run the aws-cli/setup command from the orb
      - aws-cli/setup:
          role-arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
-         aws-region: us-east-1
          profile-name: default
      - run:
-         name: Log-into-AWS-ECR
+         name: login S3 and LS
          command: |
            # must use same profile specified in the step above       
-           aws ecr get-login-password --profile "default"
+           aws s3 ls --region us-east-1
 workflows:
   version: 2
-  build_and_push
+  build_and_push:
    jobs:
      - aws-example
