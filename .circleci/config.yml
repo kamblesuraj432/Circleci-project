@@ -1,7 +1,7 @@
 version: '2.1'
 orbs:
  # import CircleCI's aws-cli orb
- aws-cli: circleci/aws-cli@3.1
+ aws-cli: circleci/aws-cli@5.1.2
 jobs:
  aws-example:
    docker:
@@ -19,8 +19,7 @@ jobs:
            # must use same profile specified in the step above       
            aws ecr get-login-password --profile "default"
 workflows:
- OIDC-with-AWS:
+  version: 2
+  build_and_push
    jobs:
-     - aws-example:
-         # must use a valid CircleCI context
-         context: aws
+     - aws-example
