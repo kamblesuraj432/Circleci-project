@@ -10,9 +10,9 @@ jobs:
      - checkout
      # run the aws-cli/setup command from the orb
      - aws-cli/setup:
-         role-arn: 'arn:aws:iam::916370597556:role/circle-ci_trust_policy_role'
-         aws-region: "us-east-1"
-         profile-name: "default"
+         role-arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
+         aws-region: us-east-1
+         profile-name: default
      - run:
          name: Log-into-AWS-ECR
          command: |
