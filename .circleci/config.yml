@@ -8,6 +8,9 @@ jobs:
      - image: cimg/aws:2022.06
    steps:
      - checkout
+     - aws-cli/setup:
+         role_arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
+         profile_name: default
      - setup_remote_docker:
          docker_layer_caching: true
      - run:
@@ -15,9 +18,9 @@ jobs:
          command: |
             docker build -t 916370597556.dkr.ecr.us-east-1.amazonaws.com/suraj:latest .
      # run the aws-cli/setup command from the orb
-     - aws-cli/setup:
-         role_arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
-         profile_name: default
+     # - aws-cli/setup:
+       #role_arn: arn:aws:iam::916370597556:role/circle-ci_trust_policy_role
+           #profile_name: default
      - run:
          name: login S3 and LS
          command: |
